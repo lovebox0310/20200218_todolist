@@ -33,14 +33,6 @@ const UL = styled.ul`
 `;
 
 function App() {
-  // const [radio, setRadio] = React.useState();
-  // const handleChangeRadio = (e) => {
-  //   setRadio(e.target.value)
-  // }
-
-  // input value를 useState로 사용하지 않는 이유는 키보드로 입력 한번에 화면을 새로침을 한번씩 하여 성능을 저하 시킴.
-  // const [text, setText] = React.useState("");
-  // const [list, setList] = React.useState([]);
 
   const [list, setList] = useState([
     { id: 0, text: "첫 할 일입니다.", checked: false }, // 할 일을 등록할때 엑션으로 인한 리스트 변경 값을 한곳에 모아두는것이 유리함.
@@ -48,13 +40,6 @@ function App() {
 
   // const change = (e) => setText(e.target.value);
   const hadleButton = (e) => {
-    // e.preventDefault();
-    // if (text === "") {
-    //   return;
-    // }
-    // setText("");
-    // setList((arr) => [text, ...arr]);
-
     e.preventDefault();
     const el = e.target.querySelector("input"); // 엔터나 버튼으로 이벤트를 발생시 form이 이벤트의 target임 안쪽의 input태그를 참조함.
     const txt = el.value;
@@ -66,16 +51,6 @@ function App() {
     setList([...list, { id: id + 1, text: txt, checked: false }]);
     el.value = "";
   };
-
-  // const [check, setCheck] = React.useState(false);
-  // const checkChange = ({ e }) => {
-  //   setCheck(!check);
-  //   if (check) {
-  //     console.log(1);
-  //   } else {
-  //     console.log(2);
-  //   }
-  // };
 
   const hadleDeletButton = (e) => {
     const id = Number(e.target.dataset.id);
