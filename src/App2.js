@@ -45,8 +45,6 @@ const App = () => {
       if(txt === '') return;
 
       
-      
-      
       const lastTodo = currentItem[currentItem.length - 1]; // 리스트에서 마지막 할 일을 가져온다.
 
       console.log(lastTodo, "lastTodo :::::::::::::??");
