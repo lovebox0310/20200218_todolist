@@ -44,10 +44,23 @@ const App = () => {
         return;
       }
       
+<<<<<<< HEAD
       const count = currentItem.length - 1;
       
       console.log(count, "id :::::::::::::??");
       setCurrentItem([...currentItem, { id: count + 1, title: txt, checked: false }]);
+=======
+      const lastTodo = currentItem[currentItem.length - 1]; // 리스트에서 마지막 할 일을 가져온다.
+
+      console.log(lastTodo, "lastTodo :::::::::::::??");
+
+      const id = lastTodo === undefined ? 0 : lastTodo.id; // 리스트에 아무것도 없으면 undefined이고 id값은 0으로 셋팅 id값은 중요함.
+
+      console.log(id, "id :::::::::::::??");
+
+      setCurrentItem([...currentItem, { id: id + 1, title: txt, checked: false }]);
+
+>>>>>>> refs/remotes/origin/main
       el.value = "";
     }
 
