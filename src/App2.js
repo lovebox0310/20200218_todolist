@@ -30,13 +30,10 @@ const App = () => {
     const [currentItem, setCurrentItem] = useState([
       {id: 0, title : '할일 목록을 만들기', checked : false} // 할밀 목록 제어하기 위한 리스트
     ]); 
-
-    // form evnet
     const onChangeSubmit = (e) =>{ // 텍스트 값을 감지해서 currentText 값을 변경함.
       e.preventDefault(); // submit 누르면 이벤트를 명시적으로 처리 하지 않은 경우, 해당 이벤트에 대한 기본 동작을 실행 하지 않도록 제어.
 
       // const el = setCurrentItem(e.target.value);
-      
       const el = e.target.querySelector("input"); // 엔터나 버튼으로 이벤트를 발생시 form이 이벤트의 target임 안쪽의 input태그를 참조함.
       const txt = el.value;
       if(txt === '') {
@@ -51,11 +48,12 @@ const App = () => {
       el.value = "";
     }
 
-    const handleDeleteBtn = (e , id) => {
+    const handleDeleteBtn = (id) => {
       // const id = Number(e.target.dataset.id);
       // console.log(id, ":::::::::::id");
-      const tempList = currentItem.filter((todo) => todo.id !== id);
-
+            
+      const tempList = currentItem.filter((todo)  => todo.id !== id);
+      
       console.log(tempList, "tempList :::::::::::");
       setCurrentItem(tempList);
     }
@@ -66,7 +64,7 @@ const App = () => {
       <Wrap>
         <Top>
           <h1>Todo</h1>
-          <form name="todoForm" id="todoForm" onSubmit={ onChangeSubmit }>
+          <form onSubmit={ onChangeSubmit }>
             <input type="text" />
             <input type="submit" />
           </form>
@@ -78,7 +76,7 @@ const App = () => {
                   <input type="checkbox" value={item.checked} />
                   {item.id} :: {item.title}
                 </p>
-                <button onClick={(e)=>handleDeleteBtn(e, item.id)}>삭제</button>
+                <button onClick={()=>handleDeleteBtn(item.id)}>삭제</button>
                 {/* <button onClick={handleDeleteBtn} data-id={item.id}>삭제</button> */}
               </li>
             ))}
