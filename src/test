@@ -1,0 +1,421 @@
+import React, {useRef, useState, useEffect} from 'react';
+import {useDispatch} from "react-redux";
+import {Link} from 'react-router-dom';
+import {memberRead, memberIdCheck, memberSave, memberList} from "../../reducers/member";
+import SwitchBtn from "../common/SwitchBtn";
+import registerValidate from "../../common/registerValidate"
+import {history} from "../../helpers/history";
+
+// ## 00. Toasts Pop
+import toast from 'react-hot-toast';
+
+// ## 00. 다음 주소
+import PopupDom from '../common/PopupDom';
+import PopPostCode from '../common/PopPostCode';
+import Editer from '../common/Editer';
+
+
+const MemberAdd = (props) => {
+
+    // ## 00. 에러 메세지
+    const [errors, setErrors] = useState({});
+    // ## 00. 등록 로딩 이미지
+    const [loading, setLoading] = useState(false);
+
+    // ## 00. data Map
+    const [data, setData ] = useState([]);
+
+    // ## 00. 주소 팝업
+    const [isPopupOpen, setIsPopupOpen] = useState(false)
+    // ## 00. Input Id Check State
+    const [mUidChk, setMUidChk] = useState();
+    // ## 00. Input Files State
+    const [isFiles, setIsFiles] = useState([]);
+    // ## 00. Input State
+    const [values, setValues] = useState({
+        mSeq: '',
+        mName: '',
+        mUid: '',
+        mPass:'',
+        mEmail:'',
+        mPhone:'',
+        mZip:'',
+        mAddress1:'',
+        mAddress2:'',
+        mState:'Y',
+        mAuth:'ROLE_ADMIN',
+        mDesc:'',
+
+    });
+
+    const {location, match} = props;
+    // ## 00. data Seq
+    console.log( match);
+    const { no } = match.params;
+    console.log(no);
+
+    // ## 00. 함수형 컴포넌트 실행
+    const dispatch = useDispatch();
+
+    // ## 00. from useRef
+    const inputRef = useRef(null);
+
+
+    // ## 00. Input Change
+    const inputChangeHandle = (e) => {
+        // e.preventDefault();
+        const { name, value } = e.target;
+        setValues({ ...values, [name]: value });
+    };
+
+    // ## 00. Input Editor
+    const editorChangeHandle = (value) => {
+        // e.preventDefault();
+        setValues({ ...values, ["mDesc"]: value });
+    };
+
+
+    // ## 00. Input Files Change
+    const fileChangeHandle = (e) => {
+        // e.preventDefault();
+        const { name, value } = e.target;
+        console.log(name, value);
+        if(name ==="isFiles"){
+            const formData = new FormData();
+            formData.append('filesName', value);
+            let fileName = value.split('\\').pop();
+            document.getElementsByClassName("custom-file-label")[0].innerText = fileName;
+        }
+        setIsFiles(value);
+    };
+
+
+    // ## 00. Error Meassge Toast
+    useEffect(() => {
+        if (!loading) {
+          if (Object.keys(errors).length > 0) {
+              Object.keys(errors).forEach(function(key, num){
+                  if(num === 0){
+                      inputRef.current[key].focus();
+                      toast.error(errors[key]);
+                  }
+              });
+          }
+        }
+    }, [errors]);
+
+
+    // ## 00. Error Meassge Toast
+    // ## 00. useEffect 목록 가져오기
+    useEffect(() => {
+        dispatch(memberRead(no))
+            .then((response) => {
+                setData(response.map);
+            })
+            .catch((e)=>{
+                setData([]);
+                console.log("CCC");
+            });
+
+    }, [no]);
+
+
+    //setNo(match.param);
+
+    // ## 10. 관리자 아이디 중복체크
+    const changUidCheck = (e) => {
+        const {target : { name, value }} = e;
+        setValues({ ...values, [name]: value });
+        const idRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,12}$/;
+
+        if(idRegex.test(value)) {
+            dispatch(memberIdCheck(value)).then((res) => {
+                    if(res.code === "0000") {
+                        setMUidChk(true);
+                    }else{
+                        setMUidChk(false);
+                        toast.error(res.message);
+                    }
+                }).catch((e)=>{ toast.error(data.message) });
+        }
+    }
+
+    // ## 10. 관리자 등록 필수체크 
+    const saveBtnClick = async (e) => {
+        // refresh 차단
+        e.preventDefault();
+        // 버튼 Loading 실행
+        setLoading(true);
+
+        setTimeout(function(){
+           console.log(111);
+        },1000);
+
+        setErrors([]);
+
+        // 필수체크
+        let error = [];
+        error = registerValidate({values, mUidChk});
+        setErrors(error);
+
+        // ## 99. error 없을때만
+        if (Object.keys(error).length === 0) {
+            dispatch(memberSave(values)).then((res) => {
+                if (res.code === "0000") {
+                    toast.success(res.message);
+                    setTimeout(function(){
+                        history.push("/memberList");
+                    },1000);
+
+                } else {
+                    toast.error(res.message);
+                }
+            })
+        }
+        setLoading(false);
+    }
+
+    // ## 00. 주소 팝업 OPEN/CLOSE
+    const openPostCode = (type) => {
+        setIsPopupOpen(type);
+    }
+
+    return (
+        <div className="col-lg-12">
+            {/* ::::: HEADER START  ::::: */}
+            <div className="row wrapper border-bottom white-bg page-heading">
+                <div className="col-lg-10">
+                    <h2>회원 수정/등록</h2>
+                    <ol className="breadcrumb">
+                        <li className="breadcrumb-item">
+                            <Link to="/main">Home</Link>
+                        </li>
+                        <li className="breadcrumb-item">
+                            회원관리
+                        </li>
+                        <li className="breadcrumb-item active">
+                            <strong>회원 수정/등록</strong>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+            {/* ::::: HEADER END  ::::: */}
+
+            {/* ::::: CONTENT START  ::::: */}
+            <div className="wrapper wrapper-content animated fadeInRight ecommerce">
+                <div className="row">
+                    <div className="col-lg-12">
+
+                        <div className="ibox ">
+                            <div className="ibox-title">
+                                <h5>회원 수정/등록</h5>
+                            </div>
+
+                            <form method={"POST"} ref={inputRef} onSubmit={saveBtnClick}>
+                            <div className="ibox-content">
+                                <Editer value={values.mDesc} onChange={editorChangeHandle} />
+
+                                   <div className="form-group row"><label
+                                        className="col-sm-2 col-form-label">아이디:</label>
+                                        <div className="col-sm-10">
+                                            <input
+                                                type="text"
+                                                className={errors.mUid ? "form-control required error" :"form-control required"}
+                                                name={"mUid"}
+                                                onChange={changUidCheck}
+                                                value={values.mUid}
+                                                placeholder="아이디를 입력하세요." />
+                                            {mUidChk &&  <span className="form-text m-b-none text-info">사용 가능한 아이디입니다.</span>}
+                                        </div>
+
+                                    </div>
+                                    <div className="form-group row"><label
+                                        className="col-sm-2 col-form-label">패스워드:</label>
+                                        <div className="col-sm-10">
+                                            <input
+                                                type={"password"}
+                                                className={errors.mPass ? "form-control required error" :"form-control"}
+                                                name={"mPass"}
+                                                onChange={inputChangeHandle}
+                                                value={values.mPass}
+                                                placeholder="패스워드를 입력하세요." />
+                                        </div>
+                                    </div>
+                                    <div className="form-group row"><label
+                                        className="col-sm-2 col-form-label">이름:</label>
+                                        <div className="col-sm-10">
+                                            <input
+                                                type="text"
+                                                className={errors.mName ? "form-control required error" :"form-control required"}
+                                                name={"mName"}
+                                                onChange={inputChangeHandle}
+                                                value={values.mName}
+                                                placeholder="이름을 입력하세요." />
+                                        </div>
+                                    </div>
+                                    <div className="form-group row">
+                                        <label className="col-sm-2 col-form-label">메일:</label>
+                                        <div className="col-sm-10">
+                                            <input
+                                                type={"text"}
+                                                className={errors.mEmail ? "form-control required error" :"form-control"}
+                                                name={"mEmail"}
+                                                onChange={inputChangeHandle}
+                                                value={values.mEmail}
+                                                placeholder="메일주소를 입력하세요." />
+                                        </div>
+                                    </div>
+                                    <div className="form-group row">
+                                        <label className="col-sm-2 col-form-label">연락처:</label>
+                                        <div className="col-sm-10">
+                                            <input
+                                                type={"text"}
+                                                className={errors.mPhone ? "form-control required error" :"form-control"}
+                                                name={"mPhone"}
+                                                onChange={inputChangeHandle}
+                                                value={values.mPhone}
+                                                placeholder="연락처를 입력하세요." />
+                                        </div>
+                                    </div>
+                                <div className="form-group row">
+                                    <label className="col-sm-2 col-form-label">연락처:</label>
+                                    <div className="col-sm-4 custom-file">
+                                        <input 
+                                            id={"file_id"}
+                                            type={"file"}
+                                            name={"isFiles"}
+                                            className={"custom-file-input"}
+                                            value={isFiles}
+                                            onChange={fileChangeHandle} />
+                                        <label htmlFor="file_id" className="custom-file-label" style={{left:"15px"}}>파일선택...</label>
+                                    </div>
+                                    <div className=" col-sm-4 bg-light">
+                                        <button aria-hidden="true" data-dismiss="alert" className="close"
+                                                type="button">×
+                                        </button>
+                                        <img src="img/a4.jpg" className="img-md rounded" />
+                                    </div>
+
+                                </div>
+
+
+                                    <div className="form-group row">
+                                        <label className="col-sm-2 col-form-label">주소:</label>
+                                        <div className="col-sm-10">
+                                                <div className="input-group m-b">
+                                                    <span className="input-group-prepend">
+                                                        <button type="button" id={"open"} className="btn btn-primary" onClick={() => openPostCode(true)}>주소검색</button>
+                                                    </span>
+                                                    <input
+                                                        type="text"
+                                                        name={"mZip"}
+                                                        className={"form-control col-sm-3"}
+                                                        readOnly={true}
+                                                        placeholder={"우편번호"}
+                                                        onChange={inputChangeHandle}
+                                                        value={values.mZip} />
+                                                </div>
+
+                                                <div className="input-group m-b">
+                                                    <input
+                                                        type="text"
+                                                        name={"mAddress1"}
+                                                        className={"form-control col-sm-6"}
+                                                        readOnly={true}
+                                                        placeholder={"주소"}
+                                                        onChange={inputChangeHandle}
+                                                        value={values.mAddress1} />
+                                                </div>
+                                                <div id='popupDom'>
+                                                    {isPopupOpen && (
+                                                        <PopupDom>
+                                                            <PopPostCode onClose={openPostCode} values={values} setValues={setValues} />
+                                                        </PopupDom>
+                                                    )}
+                                                </div>
+                                                <input
+                                                    type={"text"}
+                                                    className={"form-control"}
+                                                    name={"mAddress2"}
+                                                    onChange={inputChangeHandle}
+                                                    value={values.mAddress2}
+                                                    placeholder="상세 주소를 입력하세요." />
+                                        </div>
+                                    </div>
+
+                                    <div className="form-group row">
+                                        <label className="col-sm-2 col-form-label">상태:</label>
+                                        <div className="col-sm-10 btn-group">
+                                            <SwitchBtn ischeck={true} />
+                                        </div>
+
+                                    </div>
+                                    <div className="form-group row">
+                                        <label className="col-sm-2 col-form-label">권한:</label>
+                                        <div className="col-sm-10 btn-group">
+                                            <div className="col-sm-2">
+                                                <label htmlFor={"radio1"}> 관리자 </label>
+                                                <input
+                                                    type="radio" name={"mAuth"} id="radio1"
+                                                    value="ROLE_ADMIN"
+                                                    defaultChecked={values.mAuth === 'ROLE_ADMIN'}
+                                                />
+                                            </div>
+
+                                            <div className="col-sm-2">
+                                                <label htmlFor="radio2"> 정산관리 </label>
+                                                <input type="radio" name={"mAuth"} id="radio2"
+                                                       value="ROLE_ACCOUNT"
+                                                       defaultChecked={values.mAuth === 'ROLE_ACCOUNT'}
+                                                />
+                                            </div>
+
+                                            <div className="col-sm-2">
+                                                <label htmlFor="radio3"> 일반회원 </label>
+                                                <input type="radio" name={"mAuth"} id="radio3"
+                                                       value="ROLE_ADMIN"
+                                                       defaultChecked={values.mAuth === 'ROLE_USER'}
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                            </div>
+                            <div className={"ibox-footer"}>
+                                <div className="form-group text-center">
+                                    <button className="btn btn-primary" disabled={loading}>
+                                        {loading && (
+                                            <span className="sk-spinner sk-spinner-circle">
+                                              <div className="sk-circle1 sk-circle"></div>
+                                              <div className="sk-circle2 sk-circle"></div>
+                                              <div className="sk-circle3 sk-circle"></div>
+                                              <div className="sk-circle4 sk-circle"></div>
+                                              <div className="sk-circle5 sk-circle"></div>
+                                              <div className="sk-circle6 sk-circle"></div>
+                                              <div className="sk-circle7 sk-circle"></div>
+                                              <div className="sk-circle8 sk-circle"></div>
+                                              <div className="sk-circle9 sk-circle"></div>
+                                              <div className="sk-circle10 sk-circle"></div>
+                                              <div className="sk-circle11 sk-circle"></div>
+                                              <div className="sk-circle12 sk-circle"></div>
+                                            </span>
+                                            /*<span className="spinner-border spinner-border-sm"></span>*/
+                                        )}
+                                        <span>저장</span>
+                                    </button>
+                                </div>
+                            </div>
+                            </form>
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </div>
+            {/* ::::: CONTENT END  ::::: */}
+
+        </div>
+    )
+}
+
+export default MemberAdd;
