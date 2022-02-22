@@ -33,7 +33,6 @@ const UL = styled.ul`
 `;
 
 function App() {
-
   const [list, setList] = useState([
     { id: 0, text: "첫 할 일입니다.", checked: false }, // 할 일을 등록할때 엑션으로 인한 리스트 변경 값을 한곳에 모아두는것이 유리함.
   ]);
