@@ -13,8 +13,8 @@ const BodyItem = styled.div`
 
 
 
-const Top = ({ children }) => {
+const body = ({ children }) => {
   return <BodyItem>{ children }</BodyItem>
 }
 
-export default Top;
+export default body;

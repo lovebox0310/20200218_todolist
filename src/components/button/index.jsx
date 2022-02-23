@@ -13,8 +13,8 @@ const Btn = styled.button`
 
 
 
-const Button = ({ children }) => {
-  return <Btn>{ children }</Btn>
+const Button = () => {
+  return <Btn></Btn>
 }
 
 export default Button;
