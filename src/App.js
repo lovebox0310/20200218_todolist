@@ -84,7 +84,7 @@ function App() {
     console.log(">>", id, tempList);
   };
 
-  console.log("새로고침됨!!!");
+  console.log("새로고침됨!!!  새로운 브랜치 dev/kjh");
   return (
     <Wrap>
       <div className="top">
