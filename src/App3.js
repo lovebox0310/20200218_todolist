@@ -1,4 +1,4 @@
-// import React, { useState } from "react";
+import React, { useState } from 'react'
 import './assets/css/reset.css'
 import styled from 'styled-components'
 import TopItem from './layout/top'
@@ -6,7 +6,6 @@ import BodyItem from './layout/body'
 import InputTxt from './components/input'
 import Btn from './components/button'
 import Checkbox from './components/checkbox'
-import { useState } from 'react'
 const Wrap = styled.div`
   padding: 20px;
 `

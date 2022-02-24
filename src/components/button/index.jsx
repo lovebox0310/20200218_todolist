@@ -12,7 +12,11 @@ const Btn = styled.button`
 `
 
 const Button = ({ children, handleDeleteBtn, itemId }) => {
-  return <Btn onClick={(e) => handleDeleteBtn(itemId)}>{children}</Btn>
+  return (
+    <Btn onClick={(e) => handleDeleteBtn && handleDeleteBtn(itemId)}>
+      {children}
+    </Btn>
+  )
 }
 
 export default Button
