@@ -1,11 +1,16 @@
-import React, { useState } from "react";
+// import React, { useState } from "react";
 import "./assets/css/reset.css";
 import styled from "styled-components";
-
+import TopItem from "./layout/top";
+import BodyItem from "./layout/body";
+import InputTxt from "./components/input";
+import Btn from "./components/button";
+import Checkbox from "./components/checkbox";
+import { useState } from "react";
 const Wrap = styled.div`
   padding: 20px;
 `
-const Top = styled.div``
+// const Top = styled.div``
 const UL = styled.ul`
   margin-top: 20px;
   width: 100%;
@@ -28,52 +33,63 @@ const UL = styled.ul`
 
 const App = () => {
     const [currentText, setCurrentText] = useState([
-      { id: 0, title: '할일 목록 을 만들자', checked : false }
+      {id: 0, text : '첫 할일 리스트 작성', checked: false}
     ]);
 
-    const onSubmit = (e) =>{
+    const onChangeSubmit = (e) => {
       e.preventDefault();
 
       const el = e.target.querySelector('input');
-      const text = el.value;
+      const txt = el.value;
+      
+      console.log(txt);
 
-      if(text === '') return;
+      if (txt === "") {
+        alert("todo list add me");
+        return;
+      }
+      
+      const arrCount = currentText[currentText.length - 1];
+      
+      console.log(arrCount);
 
-      const list = currentText[ currentText.length - 1 ];
+      setCurrentText([
+        ...currentText,
+        { id: arrCount.id + 1, text: txt, checked: false },
+      ]);
 
-      console.log(list, "lastTodo :::::::::::::??");
+      el.value = '';
+    }
 
-      const id = list === undefined ? 0 : list.id;
-      
-      console.log(id, "id :::::::::::::??");
-      
-      
-      setCurrentText([...currentText, { id: id + 1, title: text, checked: false }]);
-      
-      
-      el.value = "";
+    const handleDelete = (e, id) => {
+      const tempList = currentText.filter((todo) => todo.id !== id);
+      console.log(tempList, "::::::::::");
+      setCurrentText(tempList);
+
     }
 
     return (
       <Wrap>
-        <Top>
-          <h1>title</h1>
-          <form onSubmit={onSubmit}>
-            <input type="text" />
-            <input type="submit" />
+        <TopItem>
+          <h1>Todo 3</h1>
+          <form onSubmit={onChangeSubmit}>
+            <InputTxt />
+            <InputTxt type="submit" value="입력" />
           </form>
-        </Top>
-        <UL>
-          {currentText.map( (item)  => ( 
-            <li key={item.id}>
-              <p>
-                <input type="checkbox" value={item.checked} />
-                {item.title}
-              </p>
-              <button>삭제</button>
-            </li>
-          ))}
-        </UL>
+        </TopItem>
+        <BodyItem>
+          <UL>
+            {currentText.map(item =>(
+                <li key={item.id}>
+                  <p>
+                    <Checkbox type="checkbox" name="textInput" id="textInput" value={item.checked}/>
+                    {item.text}
+                  </p>
+                  <button onClick={() => handleDelete(item.id)}>삭제</button>
+                </li>
+              ))}
+          </UL>
+        </BodyItem>
       </Wrap>
     );
 }

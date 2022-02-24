@@ -9,6 +9,13 @@ const TopItem = styled.div`
     padding: 20px;
     box-sizing: border-box;
     border-bottom: 1px solid #ddd;
+    input {
+      flex: 3;
+    }
+    input + input {
+      flex: 1;
+      margin-left: 10px;
+    }
   }
 `
 

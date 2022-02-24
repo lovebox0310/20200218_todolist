@@ -13,4 +13,8 @@ const Top = ({ children }) => {
   return <BodyItem>{children}</BodyItem>
 }
 
-export default Top
+const body = ({ children }) => {
+  return <BodyItem>{children}</BodyItem>
+}
+
+export { Top, body }
