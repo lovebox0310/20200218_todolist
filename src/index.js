@@ -1,11 +1,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import App5 from './App5'
+import App6 from './App6'
 
 ReactDOM.render(
 
   <React.StrictMode>
-    <App5 />
+    <App6 />
   </React.StrictMode>,
   document.getElementById('root')
 )
