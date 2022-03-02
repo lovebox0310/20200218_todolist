@@ -1,4 +1,6 @@
 import React from "react";
+import { Children } from "react/cjs/react.production.min";
+// import { Value } from "sass";
 import styled from "styled-components";
 
 const Btn = styled.button`
@@ -11,8 +13,14 @@ const Btn = styled.button`
   box-sizing: border-box;
 `;
 
-const Button = ({ children, handleDeleteBtn, itemId }) => {
-  return <Btn onClick={(e) => handleDeleteBtn(itemId)}>{children}</Btn>;
+// const Button = ({ children, handleDeleteBtn, itemId }) => {
+const Button = ({props, children, handleDeleteBtn,  }) => {
+  // console.log('>> handleDeleteBtn', handleDeleteBtn);
+  // console.log('>> children', children);
+  // console.log(props);
+  // return null;
+  return <Btn onClick={(e) => handleDeleteBtn && handleDeleteBtn(props.itemId)}>{children}</Btn>;
+  // return <Btn onClick={(e) => props.handleDeleteBtn && props.handleDeleteBtn(props.itemId)}>{props.namevalue}</Btn>;
 };
 
 export default Button;

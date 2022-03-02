@@ -48,10 +48,11 @@ const App = () => {
     }
 
     const todo = currentText[currentText.length - 1]; // 배열의 마지막 배열을 찾아 값을 저장.
+    const todoList = todo && todo.id >= 0 ? todo.id + 1 : 0; 
     console.log(todo, ":::::::::::");
     setCurrentText([
       ...currentText, // 배열 전체를 받아와서
-      { id: todo.id + 1, title: value, checked: false }, //
+      { id: todoList, title: todoList, checked: false }, //
     ]);
     el.value = "";
   };
