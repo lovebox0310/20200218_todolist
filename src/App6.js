@@ -39,7 +39,7 @@ const ListItem = ({todoList, onChangeState, onDelete}) => {
             <li key={item.id}>
                 <input type="checkbox" data-id={item.id} defaultChecked={item.state === 'done'} onChange={onChangeState}/>
                 {item.todo}
-                <input type="button" data-id={item.id} value="삭제" onChange={onDelete} />
+                <input type="button" data-id={item.id} value="삭제" onClick={onDelete} />
             </li>
         ));
     }
