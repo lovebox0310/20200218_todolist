@@ -12,6 +12,7 @@ const Btn = styled.button`
 `;
 
 const Button = ({ children, handleDeleteBtn, itemId }) => {
+  // return <Btn onClick={(e) => handleDeleteBtn(itemId)}>{children}</Btn>;
   return <Btn onClick={(e) => handleDeleteBtn(itemId)}>{children}</Btn>;
 };
 
