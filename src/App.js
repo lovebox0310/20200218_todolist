@@ -1,17 +1,17 @@
 // import React from "react";
-import React, { useState } from "react";
-import Btn from "./components/button";
+import React, { useState } from 'react'
+import Btn from './components/button'
 // import Check from "./components/checkbox";
-import Input from "./components/input";
+import Input from './components/input'
 // import Radio from "./components/radio";
 // import Select from "./components/select";
 // import Slider from "./components/slider";
-import "./assets/css/reset.css";
+import './assets/css/reset.css'
 
-import Wrap from "./layout/wrap";
-import TopItem from "./layout/top";
-import BodyItem from "./layout/body";
-import styled from "styled-components";
+import Wrap from './layout/wrap'
+import TopItem from './layout/top'
+import BodyItem from './layout/body'
+import styled from 'styled-components'
 
 const UL = styled.ul`
   width: 100%;
@@ -26,39 +26,39 @@ const UL = styled.ul`
       font-size: 16px;
       color: #333;
     }
-    input[type="checkbox"] {
+    input[type='checkbox'] {
       margin-right: 10px;
     }
   }
-`;
+`
 
 function App() {
   const [list, setList] = useState([
-    { id: 0, text: "첫 할 일입니다.", checked: false }, // 할 일을 등록할때 엑션으로 인한 리스트 변경 값을 한곳에 모아두는것이 유리함.
-  ]);
+    { id: 0, text: '첫 할 일입니다.', checked: false }, // 할 일을 등록할때 엑션으로 인한 리스트 변경 값을 한곳에 모아두는것이 유리함.
+  ])
 
   // const change = (e) => setText(e.target.value);
   const hadleButton = (e) => {
-    e.preventDefault();
-    const el = e.target.querySelector("input"); // 엔터나 버튼으로 이벤트를 발생시 form이 이벤트의 target임 안쪽의 input태그를 참조함.
-    const txt = el.value;
-    if (txt === "") {
-      return;
+    e.preventDefault()
+    const el = e.target.querySelector('input') // 엔터나 버튼으로 이벤트를 발생시 form이 이벤트의 target임 안쪽의 input태그를 참조함.
+    const txt = el.value
+    if (txt === '') {
+      return
     }
-    const lastTodo = list[list.length - 1]; // 리스트에서 마지막 할 일을 가져온다.
-    const id = lastTodo === undefined ? 0 : lastTodo.id; // 리스트에 아무것도 없으면 undefined이고 id값은 0으로 셋팅 id값은 중요함.
-    setList([...list, { id: id + 1, text: txt, checked: false }]);
-    el.value = "";
-  };
+    const lastTodo = list[list.length - 1] // 리스트에서 마지막 할 일을 가져온다.
+    const id = lastTodo === undefined ? 0 : lastTodo.id // 리스트에 아무것도 없으면 undefined이고 id값은 0으로 셋팅 id값은 중요함.
+    setList([...list, { id: id + 1, text: txt, checked: false }])
+    el.value = ''
+  }
 
   const hadleDeletButton = (e) => {
-    const id = Number(e.target.dataset.id);
-    const tempList = list.filter((todo) => todo.id !== id);
-    setList(tempList);
-    console.log(">>", id, tempList);
-  };
+    const id = Number(e.target.dataset.id)
+    const tempList = list.filter((todo) => todo.id !== id)
+    setList(tempList)
+    console.log('>>', id, tempList)
+  }
 
-  console.log("새로고침됨!!!  새로운 브랜치 dev/kjh");
+  console.log('새로고침됨!!!  새로운 브랜치 dev/kjh')
   return (
     <Wrap>
       <div className="top">
@@ -114,7 +114,7 @@ function App() {
       <h3>Slider</h3>
       <Slider /> */}
     </Wrap>
-  );
+  )
 }
 
-export default App;
+export default App

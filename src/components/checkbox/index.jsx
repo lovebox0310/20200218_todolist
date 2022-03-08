@@ -1,5 +1,5 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react'
+import styled from 'styled-components'
 
 const Checkbox = styled.input`
   width: 20px;
@@ -7,7 +7,7 @@ const Checkbox = styled.input`
 `
 
 const Check = (props) => {
-  return <Checkbox type="checkbox" {...props} />
+  return <Checkbox {...props} />
 }
 
 export default Check
