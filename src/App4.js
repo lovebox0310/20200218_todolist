@@ -79,7 +79,8 @@ const App = () => {
               <Checkbox type="checkbox" value={item.checked} />
               {item.title}
             </p>
-            <Btn itemId={item.id} handleDeleteBtn={handleDeleteBtn}>
+            {/* <Btn itemId={item.id} handleDeleteBtn={handleDeleteBtn}> */}
+            <Btn onClick={handleDeleteBtn}>
               삭제
             </Btn>
           </li>
