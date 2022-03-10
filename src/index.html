@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <section>
+        <h1>todo</h1>
+    </section>
+    <section>
+        <input type="text" name="newTodo" id="newTodo" />
+        <input type="button" value="+" />
+    </section>
+    <section>
+        <ul>
+            <li>1.zzzzz</li>
+        </ul>
+    </section>
+   
+    
+    <script>
+        const todo_list = [
+            { id: 0, todo: '1234'},
+            { id: 1, todo: '5678'},
+        ]
+    </script>
+    <script>
+        const todoListUi = document.querySelector('ul')
+        todoListUi.innerHTML = todo_list.map((t) => `
+            <li> ${t.todo} </li>
+        `).reduce((acc, li) => acc + li);
+        
+        console.log(
+            todoListUi.innerHTML = todo_list.map((t) => `
+            <li> ${t.todo} </li>
+        `).reduce((acc, li) => acc + li)
+        );
+    </script>
+
+
+</body>
+</html>
