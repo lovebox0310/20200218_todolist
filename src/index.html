@@ -11,6 +11,9 @@
     <section>
         <h1>todo</h1>
     </section>
+    <!-- 숫자값만 표시, 3자리마다 콤마 -->
+    <!-- 한글만 입력되도록  -->
+    <!-- Enter키를 눌렀을때 입력 되도록 -->
     <section>
         <input type="text" name="newTodo" id="newTodo" />
         <input type="button" value="+" />
@@ -33,7 +36,7 @@
         todoListUi.innerHTML = todo_list.map((t) => `
             <li> ${t.todo} </li>
         `).reduce((acc, li) => acc + li);
-        
+
         console.log(
             todoListUi.innerHTML = todo_list.map((t) => `
             <li> ${t.todo} </li>
