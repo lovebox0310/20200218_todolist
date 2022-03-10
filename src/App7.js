@@ -30,7 +30,7 @@ const Form = ({onAdd, inputRef}) => {
 }
 
 
-const List = ({todoList, onchangeState, onDelete }) => {
+const List = ({todoList, onChangeState, onDelete }) => {
 
     const getTodoListUi = () => {
         if(todoList && todoList.length < 1) {
@@ -42,7 +42,7 @@ const List = ({todoList, onchangeState, onDelete }) => {
                 <input type="checkbox"
                     data-id={item.id}
                     defaultChecked={item.state === 'done'}
-                    onChange={onchangeState}
+                    onChange={onChangeState}
                 />
                 {item.todo}
                 <input type="button" data-id={item.id} value="삭제" onClick={onDelete} />
