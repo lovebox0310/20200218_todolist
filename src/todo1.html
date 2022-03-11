@@ -7,41 +7,57 @@
     <title>Document</title>
 </head>
 <body>
-    
-    <section>
-        <h1>todo</h1>
-    </section>
-    <!-- 숫자값만 표시, 3자리마다 콤마 -->
-    <!-- 한글만 입력되도록  -->
-    <!-- Enter키를 눌렀을때 입력 되도록 -->
-    <section>
-        <input type="text" name="newTodo" id="newTodo" />
-        <input type="button" value="+" />
-    </section>
-    <section>
-        <ul>
-            <li>1.zzzzz</li>
-        </ul>
-    </section>
-   
+    <div>
+        <section>
+            <h1></h1>
+        </section>
+        <!-- 숫자값만 표시, 3자리마다 콤마 -->
+        <!-- 한글만 입력되도록  -->
+        <!-- Enter키를 눌렀을때 입력 되도록 -->
+        <Form id="todo-submit">
+            <input type="text" name="newTodo" id="newTodo" onchange="inputOnChange()"/>
+            <input type="button" value="+" />
+        </Form>
+        <section>
+            <p id="valueInput"></p>
+            <ul>
+                <li>1.zzzzz</li>
+            </ul>
+        </section>
+    </div>
     
     <script>
+        const todoSubmit = document.getElementById('todo-submit'); 
+        const todoListUi = document.querySelector('ul');
+
         const todo_list = [
             { id: 0, todo: '1234'},
-            { id: 1, todo: '5678'},
-        ]
-    </script>
-    <script>
-        const todoListUi = document.querySelector('ul')
+        ];
+
+        const todoArr = todo_list[todo_list.length - 1]
+        console.log(todoArr, "::::::::::::");
+        const inputOnChange = (e) => {
+
+            let inputValue = document.getElementById("newTodo").value; 
+            
+            todoListUi.innerHTML = valueInput
+
+            todoArr = '';
+        }
+
+        
+        
+        
+
         todoListUi.innerHTML = todo_list.map((t) => `
             <li> ${t.todo} </li>
         `).reduce((acc, li) => acc + li);
 
-        console.log(
-            todoListUi.innerHTML = todo_list.map((t) => `
-            <li> ${t.todo} </li>
-        `).reduce((acc, li) => acc + li)
-        );
+        // console.log(
+        //     todoListUi.innerHTML = todo_list.map((t) => `
+        //     <li> ${t.todo} </li>
+        // `).reduce((acc, li) => acc + li)
+        // );
     </script>
 
 
