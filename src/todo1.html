@@ -14,10 +14,8 @@
         <!-- 숫자값만 표시, 3자리마다 콤마 -->
         <!-- 한글만 입력되도록  -->
         <!-- Enter키를 눌렀을때 입력 되도록 -->
-        <Form id="todo-submit">
-            <input type="text" name="newTodo" id="newTodo" onchange="inputOnChange()"/>
-            <input type="button" value="+" />
-        </Form>
+        <input type="text" name="newTodo" id="newTodo" onchange="inputOnChange()"/>
+        <input type="button" value="+" />
         <section>
             <p id="valueInput"></p>
             <ul>
@@ -34,25 +32,39 @@
             { id: 0, todo: '1234'},
         ];
 
-        const todoArr = todo_list[todo_list.length - 1]
+
+        todoListUi.innerHTML = todo_list.map((t) => `
+            <li> ${t.todo} </li>
+        `).reduce((acc, li) => acc + li);
+
+        
+        const todoArr = todo_list[todo_list.length - 1];
+
+        console.log(todoArr([...todo_list, { id: 0, todo: '1234'}]) , "todoArr([...todo_list, { id: 0, todo: '1234'}])");
+        
         console.log(todoArr, "::::::::::::");
+        
         const inputOnChange = (e) => {
 
             let inputValue = document.getElementById("newTodo").value; 
             
-            todoListUi.innerHTML = valueInput
+            todoListUi.innerHTML = todo_list.map((t) => `
+                <li> ${t.inputValue} </li>
+            `).reduce((acc, li) => acc + li);
 
-            todoArr = '';
+             ;
+            
+            console.log(inputValue, ":::::::::::::");
+
+            inputValue.value = null;
+
         }
 
         
         
         
 
-        todoListUi.innerHTML = todo_list.map((t) => `
-            <li> ${t.todo} </li>
-        `).reduce((acc, li) => acc + li);
-
+       
         // console.log(
         //     todoListUi.innerHTML = todo_list.map((t) => `
         //     <li> ${t.todo} </li>
