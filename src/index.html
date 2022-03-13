@@ -20,7 +20,7 @@
     </section>
     <section>
         <ul>
-            <li>1.zzzzz</li>
+            <!-- 리스트 추가됨 -->
         </ul>
     </section>
    
@@ -28,20 +28,18 @@
     <script>
         const todo_list = [
             { id: 0, todo: '1234'},
-            { id: 1, todo: '5678'},
-        ]
-    </script>
-    <script>
-        const todoListUi = document.querySelector('ul')
+        ];
+        const todoListUi = document.querySelector('ul');
+
         todoListUi.innerHTML = todo_list.map((t) => `
-            <li> ${t.todo} </li>
+            <li${t.id}> ${t.todo} </li>
         `).reduce((acc, li) => acc + li);
 
-        console.log(
-            todoListUi.innerHTML = todo_list.map((t) => `
-            <li> ${t.todo} </li>
-        `).reduce((acc, li) => acc + li)
-        );
+
+        const arry = todoListUi.childNodes[1]
+
+        console.log(todo_list(...todo_list, {id: 0, todo: '1234'}) , " ㅇㅇ ?")
+            
     </script>
 
 
