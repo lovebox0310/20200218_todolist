@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .active {text-decoration: line-through;}
+    </style>
+</head>
+<body>
+    <div>
+        <section>
+            <h1>할일 목록 만들기 javascript</h1>
+        </section>
+        <!-- 숫자값만 표시, 3자리마다 콤마 -->
+        <!-- 한글만 입력되도록  -->
+        <!-- Enter키를 눌렀을때 입력 되도록 -->
+        <input type="text" name="newTodo" id="newTodo" />
+        <input type="button" value="+" onclick="fn()" />
+        <section>
+            <p id="valueInput"></p>
+            <ul id="list">
+            </ul>
+        </section>
+    </div>
+    
+    <script>
+        // 인풋에서 값을 받아온다...
+        const fn = () => {
+            // 1. 인풋의 입력된 값을 받아오기
+            const input = document.querySelector('#newTodo');
+            const val = input.value;
+            if(val === '') return;
+
+            input.value = ''; // 인풋값을 초기화 해준다.
+
+            // 2. 받아온 값을 리스트에 소스를 만든다..
+            // const li = `<li>${val}</li>`;
+            const li = document.createElement('li'); //html createElement 만든다.
+            const checkbox = document.createElement('input'); //html createElement 만든다.
+            const button = document.createElement('button'); //html createElement 만든다.
+            const txt = document.createTextNode(val);
+            
+            checkbox.type = 'checkbox'
+            button.innerHTML = '-'
+
+
+            // 3, 만든 소스를 리스트에 넣는다..
+            const list = document.querySelector('#list');
+            li.appendChild(checkbox)
+            li.appendChild(txt)
+            li.appendChild(button)
+            list.appendChild(li); // Ul에 마지막 자식으로 추가된다.
+            
+
+            // 4. 삭제 이벤트 
+            button.addEventListener('click', function(){
+                // 자기 자신의 li 찾는다.
+                // console.log(event.currentTarget.parentNode , "event.currentTarget")
+                const li = event.currentTarget.parentNode;
+                li.parentNode.removeChild(li);
+            });
+
+            // 5. 체크 이벤트...
+            checkbox.addEventListener('change', function(){
+                // 체크한 자신의 li를 찾는다.
+                const li = event.currentTarget.parentNode;
+                
+                // checked 값을 가저온다.
+                const check = event.currentTarget.checked;
+                if(check){
+                    li.classList.add('active');
+                }else {
+                    li.classList.remove('active');
+                }
+
+            });
+
+
+        }
+    
+
+
+
+    </script>
+
+
+</body>
+</html>
